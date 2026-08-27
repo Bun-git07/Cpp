@@ -1,5 +1,0 @@
-# Ignore executable files
-*.exe
-
-# Ignore environment variable files
-.env
