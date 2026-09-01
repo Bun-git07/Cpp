@@ -1,25 +1,46 @@
 #include <iostream>
 #include <chrono>
 #include <array>
+#include <utility> // for std::swap
+
 using namespace std;
 using namespace std::chrono;
-template <size_t N>
-void selectionSort(array<int, N> &arr)
+
+template <size_t N >
+int partition(array<int, N> &arr, int low, int high)
 {
-    int n = arr.size();
-    // TODO: implement selection sort
-    // Hint: for each i, track minIndex, then swap arr[i] and arr[minIndex]
-    for (int i = 0; i < n - 1; i++)
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; ++j)
     {
-        int minIdx = i;
-        for (int j = i + 1; j < n; j++)
+        if (arr[j] < pivot)
         {
-            if (arr[j] < arr[minIdx])
-            {
-                minIdx = j;
-            }
+            i++;
+            std::swap(arr[i], arr[j]);
         }
-        swap(arr[i], arr[minIdx]);
+    }
+    std::swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+template <size_t N>
+void quickSortHelper(array<int, N> &arr, int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(arr, low, high);
+        quickSortHelper(arr, low, pi - 1);
+        quickSortHelper(arr, pi + 1, high);
+    }
+}
+
+template <size_t N>
+void quickSort(array<int, N> &arr)
+{
+    if (arr.size() > 1)
+    {
+        quickSortHelper(arr, 0, static_cast<int>(arr.size()) - 1);
     }
 }
 
@@ -35,7 +56,7 @@ int main()
     }
 
     auto start = chrono::high_resolution_clock::now();
-    selectionSort(arr);
+    quickSort(arr);
     // STOP TIMER
     auto end = chrono::high_resolution_clock::now();
     // CALCULATE TIME
