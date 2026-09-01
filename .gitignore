@@ -1,0 +1,10 @@
+# Compiled binaries
+*.exe
+*.out
+*.app
+*.o
+*.obj
+
+# Build folders
+bin/
+build/
